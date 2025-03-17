@@ -1,7 +1,15 @@
 import React from "react";
+import { Route, Routes } from "react-router-dom";
+import SignUpPage from "./pages/SignUpPage";
 
 const App = () => {
-  return <h1 className='text-3xl text-red-500 font-bold '>Task Management</h1>;
+  return (
+    <div className='min-h-screen bg-gray-200 flex font-sans items-center justify-center relative overflow-hidden'>
+      <Routes>
+        <Route path='/signup' element={<SignUpPage />} />
+      </Routes>
+    </div>
+  );
 };
 
 export default App;
