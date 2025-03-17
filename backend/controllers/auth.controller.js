@@ -14,6 +14,13 @@ export const signup = async (req, res) => {
       throw new Error("Password is required.");
     }
 
+    const userAlreadyExists = await User.findOne({ email });
+    if (userAlreadyExists) {
+      return res
+        .status(400)
+        .json({ success: false, message: "User already exists." });
+    }
+
     const hashedPassword = await bcryptjs.hash(password, 10);
 
     const user = new User({
