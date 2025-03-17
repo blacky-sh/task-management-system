@@ -4,6 +4,16 @@ import bcryptjs from "bcryptjs";
 export const signup = async (req, res) => {
   const { name, email, password } = req.body;
   try {
+    if (!email) {
+      throw new Error("Email is required.");
+    }
+    if (!name) {
+      throw new Error("Name is required.");
+    }
+    if (!password) {
+      throw new Error("Password is required.");
+    }
+
     const hashedPassword = await bcryptjs.hash(password, 10);
 
     const user = new User({
