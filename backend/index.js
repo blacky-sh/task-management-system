@@ -1,6 +1,9 @@
 import express from "express";
 import { connectDB } from "./database/connectDB.js";
 
+import authRouter from "./routes/auth.route.js";
+import cookieParser from "cookie-parser";
+
 const port = process.env.PORT || 3000;
 const app = express();
 
