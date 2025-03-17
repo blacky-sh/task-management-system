@@ -2,6 +2,7 @@ import express from "express";
 import {
   signup,
   checkAuth,
+  login,
   logout,
   verifyEmail,
   forgotPassword,
@@ -13,6 +14,7 @@ const router = express.Router();
 router.get("/check-auth", verifyToken, checkAuth);
 
 router.post("/signup", signup);
+router.post("/login", login);
 router.post("/logout", logout);
 
 router.post("/verify-email", verifyEmail);
