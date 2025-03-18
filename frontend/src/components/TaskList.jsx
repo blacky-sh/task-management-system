@@ -2,7 +2,7 @@ import React from "react";
 import TaskCard from "./TaskCard";
 import AddTaskCard from "./AddTaskCard";
 
-const TaskList = ({ tasks, onEdit, onDelete, onAdd }) => {
+const TaskList = ({ tasks, onEdit, onDelete, onAdd, onUpdateStatus }) => {
   return (
     <div className='w-full p-4 overflow-y-auto'>
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
@@ -15,6 +15,7 @@ const TaskList = ({ tasks, onEdit, onDelete, onAdd }) => {
             status={task.status}
             onEdit={() => onEdit(index)}
             onDelete={() => onDelete(index)}
+            onUpdateStatus={(newStatus) => onUpdateStatus(index, newStatus)}
           />
         ))}
         <AddTaskCard onAdd={onAdd} />

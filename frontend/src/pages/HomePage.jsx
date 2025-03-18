@@ -36,6 +36,11 @@ const HomePage = () => {
     await deleteTask(tasks[index]._id);
   };
 
+  const handleUpdateStatus = async (index, newStatus) => {
+    const task = tasks[index];
+    await updateTask(task._id, { ...task, status: newStatus });
+  };
+
   const filteredTasks =
     selectedFilter === "All"
       ? tasks
@@ -53,6 +58,7 @@ const HomePage = () => {
           onEdit={handleEditTask}
           onDelete={handleDeleteTask}
           onAdd={() => setIsModalOpen(true)}
+          onUpdateStatus={handleUpdateStatus}
         />
       </div>
       <CreateTask
