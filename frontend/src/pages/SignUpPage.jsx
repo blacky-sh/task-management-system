@@ -1,21 +1,28 @@
 import React from "react";
 import Input from "../components/Input";
-import { Lock, Mail, User } from "lucide-react";
+import { Lock, Mail, User, Loader } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuthStore } from "../store/authStore";
+import { useNavigate } from "react-router-dom";
 
 const SignUpPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const { signup, error, isLoading } = useAuthStore();
+  const navigate = useNavigate();
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-    console.log(`Name: ${name}`);
-    console.log(`email: ${email}`);
-    console.log(`password: ${password}`);
-    console.log(`confirmPassword: ${confirmPassword}`);
+
+    try {
+      await signup(email, password, name);
+      navigate("/verify-email");
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div
@@ -58,12 +65,17 @@ const SignUpPage = () => {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
-
+          {error && <p className='text-red-500 font-semibold mt-2'>{error}</p>}
           <button
             className='mt-1 w-full py-2 px-4 text-white font-bold text-lg bg-sky-500 hover:bg-sky-400 cursor-pointer rounded-lg'
             type='submit'
+            disabled={isLoading}
           >
-            Sign Up
+            {isLoading ? (
+              <Loader className=' animate-spin mx-auto' size={24} />
+            ) : (
+              "Sign Up"
+            )}
           </button>
           <div className='mt-5 w-full text-center'>
             Already have an account?{" "}
