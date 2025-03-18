@@ -1,9 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../store/authStore";
+import toast from "react-hot-toast";
 
 const EmailVerificationPage = () => {
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const inputRefs = useRef([]);
+  const { verifyEmail, isLoading, error } = useAuthStore();
   const navigate = useNavigate();
 
   const handleChange = (index, value) => {
@@ -40,7 +43,14 @@ const EmailVerificationPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(code.join(""));
+    const verificationCode = code.join("");
+    try {
+      await verifyEmail(verificationCode);
+      navigate("/");
+      toast.success("Email verified successfully!");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // Auto submit when all fields are filled
@@ -74,12 +84,13 @@ const EmailVerificationPage = () => {
               />
             ))}
           </div>
-
+          {error && <p className='text-red-500 font-semibold mt-2'>{error}</p>}
           <button
             type='submit'
+            disabled={isLoading || code.some((digit) => !digit)}
             className='w-full bg-gradient-to-r from-sky-500 to-blue-600 text-white font-bold py-3 px-4 rounded-lg shadow-lg hover:from-sky-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-opacity-50 disabled:opacity-50'
           >
-            "Verify Email"
+            {isLoading ? "Verifying..." : "Verify Email"}
           </button>
         </form>
       </div>
