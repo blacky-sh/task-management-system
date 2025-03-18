@@ -1,17 +1,27 @@
 import Input from "../components/Input";
-import { Lock, Mail } from "lucide-react";
+import { Loader, Lock, Mail } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuthStore } from "../store/authStore";
+import toast from "react-hot-toast";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const { login, isLoading } = useAuthStore();
+
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log(`email: ${email}`);
-    console.log(`password: ${password}`);
+
+    try {
+      await login(email, password);
+      toast.success("Login Successful!");
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
   };
+
   return (
     <div
       className='max-w-md w-full bg-white bg-opacity-50 backdrop-filter backdrop-blur-xl rounded-2xl shadow-xl 
@@ -39,12 +49,16 @@ const LoginPage = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-
           <button
             className='mt-1 w-full py-2 px-4 text-white font-bold text-lg bg-sky-500 active:bg-sky-700 hover:bg-sky-400 cursor-pointer rounded-lg'
             type='submit'
+            disabled={isLoading}
           >
-            Login
+            {isLoading ? (
+              <Loader className='w-6 h-6 animate-spin  mx-auto' />
+            ) : (
+              "Login"
+            )}
           </button>
           <div className='my-3 w-full text-center'>
             <Link

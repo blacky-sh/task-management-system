@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Loader } from "lucide-react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
@@ -34,14 +35,18 @@ const RedirectAuthenticatedUser = ({ children }) => {
 };
 
 const App = () => {
-  const { isCheckingAuth, checkAuth, isAuthenticated, user } = useAuthStore();
+  const { isCheckingAuth, checkAuth } = useAuthStore();
 
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
 
-  console.log("isAuthenticated ", isAuthenticated);
-  console.log("user ", user);
+  if (isCheckingAuth)
+    return (
+      <div className='min-h-screen bg-gray-200 flex font-sans items-center justify-center relative overflow-hidden'>
+        <Loader className='w-10 h-10 animate-spin  mx-auto align-middle' />
+      </div>
+    );
 
   return (
     <div className='min-h-screen bg-gray-200 flex font-sans items-center justify-center relative overflow-hidden'>
