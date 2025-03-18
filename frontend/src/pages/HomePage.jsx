@@ -1,57 +1,70 @@
+import React, { useEffect, useState } from "react";
+import Sidebar from "../components/Sidebar";
+import TaskList from "../components/TaskList";
+import CreateTask from "../components/CreateTask";
 import { useAuthStore } from "../store/authStore";
-import { formatDate } from "../utils/date";
+import { useTaskStore } from "../store/taskStore";
 
 const HomePage = () => {
-  const { user, logout } = useAuthStore();
+  const { user } = useAuthStore();
+  const { tasks, fetchTasks, createTask, updateTask, deleteTask } =
+    useTaskStore();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState("All");
+  const [currentTask, setCurrentTask] = useState(null);
 
-  const handleLogout = () => {
-    logout();
+  useEffect(() => {
+    fetchTasks();
+  }, [fetchTasks]);
+
+  const handleSaveTask = async (newTask) => {
+    if (currentTask) {
+      await updateTask(currentTask._id, newTask);
+    } else {
+      await createTask(newTask);
+    }
+    setCurrentTask(null);
+    setIsModalOpen(false);
   };
+
+  const handleEditTask = (index) => {
+    setCurrentTask({ ...tasks[index], index });
+    setIsModalOpen(true);
+  };
+
+  const handleDeleteTask = async (index) => {
+    await deleteTask(tasks[index]._id);
+  };
+
+  const filteredTasks =
+    selectedFilter === "All"
+      ? tasks
+      : tasks.filter((task) => task.status === selectedFilter);
+
   return (
-    <div
-      className='max-w-md w-full bg-sky-900   rounded-2xl shadow-xl 
-  overflow-hidden'
-    >
-      <h2 className='text-3xl font-bold mt-3 mb-6 text-center text-white '>
-        Dashboard
-      </h2>
-
-      <div className='space-y-6'>
-        <div className='m-6 p-4 bg-sky-800 bg-opacity-50 rounded-lg border border-sky-700'>
-          <h3 className='text-xl font-semibold text-white mb-3'>
-            Profile Information
-          </h3>
-          <p className='text-gray-300'>Name: {user.name}</p>
-          <p className='text-gray-300'>Email: {user.email}</p>
-        </div>
-        <div className='m-6 p-4 bg-sky-800 bg-opacity-50 rounded-lg border border-sky-700'>
-          <h3 className='text-xl font-semibold text-white mb-3'>
-            Account Activity
-          </h3>
-          <p className='text-gray-300'>
-            <span className='font-bold'>Joined: </span>
-            {new Date(user.createdAt).toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
-          </p>
-          <p className='text-gray-300'>
-            <span className='font-bold'>Last Login: </span>
-
-            {formatDate(user.lastLogin)}
-          </p>
-        </div>
+    <div className='pt-16 bg-gray-100 min-h-screen w-full flex'>
+      <Sidebar
+        selectedFilter={selectedFilter}
+        setSelectedFilter={setSelectedFilter}
+      />
+      <div className='ml-1/4 w-3/4 p-4'>
+        <TaskList
+          tasks={filteredTasks}
+          onEdit={handleEditTask}
+          onDelete={handleDeleteTask}
+          onAdd={() => setIsModalOpen(true)}
+        />
       </div>
-
-      <div className='mt-4 w-full '>
-        <button
-          onClick={handleLogout}
-          className='mb-6 w-100 ml-6 py-2 px-4 text-white font-bold text-lg bg-sky-500 active:bg-sky-700 hover:bg-sky-400 cursor-pointer rounded-lg'
-        >
-          Logout
-        </button>
-      </div>
+      <CreateTask
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setCurrentTask(null);
+        }}
+        onSave={handleSaveTask}
+        isAdmin={user?.role === "admin"}
+        task={currentTask}
+      />
     </div>
   );
 };
