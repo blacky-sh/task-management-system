@@ -5,23 +5,29 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const SignUpPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const { signup, error, isLoading } = useAuthStore();
+  const { signup, isLoading } = useAuthStore();
   const navigate = useNavigate();
 
   const handleSignUp = async (e) => {
     e.preventDefault();
 
+    if (password !== confirmPassword) {
+      toast.error("Password and Confirm Password do not match");
+      return;
+    }
+
     try {
       await signup(email, password, name);
       navigate("/verify-email");
     } catch (error) {
-      console.log(error);
+      toast.error(error.response.data.message);
     }
   };
   return (
@@ -65,7 +71,6 @@ const SignUpPage = () => {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
-          {error && <p className='text-red-500 font-semibold mt-2'>{error}</p>}
           <button
             className='mt-1 w-full py-2 px-4 text-white font-bold text-lg bg-sky-500 hover:bg-sky-400 cursor-pointer rounded-lg'
             type='submit'
