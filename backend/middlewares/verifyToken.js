@@ -17,7 +17,6 @@ export const verifyToken = async (req, res, next) => {
 
     const user = await User.findById(decoded.userId);
     if (user) {
-      console.log(user);
       req.userRole = user.role;
     }
 
