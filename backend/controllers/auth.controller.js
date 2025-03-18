@@ -67,13 +67,30 @@ export const verifyEmail = async (req, res) => {
   try {
     const user = await User.findOne({
       verificationToken: code,
-      verificationTokenExpiresAt: { $gt: Date.now() },
     });
 
     if (!user) {
       return res.status(400).json({
         success: false,
-        message: "Invalid or expired verification code",
+        message: "Invalid verification code",
+      });
+    }
+
+    if (user.verificationTokenExpiresAt <= Date.now()) {
+      // Generate a new verification token
+      const newVerificationToken = Math.floor(
+        100000 + Math.random() * 900000
+      ).toString();
+      user.verificationToken = newVerificationToken;
+      user.verificationTokenExpiresAt = Date.now() + 15 * 60 * 1000; // 15 minutes
+      await user.save();
+
+      await sendVerificationEmail(user.email, newVerificationToken);
+
+      return res.status(400).json({
+        success: false,
+        message:
+          "Verification code expired. A new code has been sent to your email.",
       });
     }
 
