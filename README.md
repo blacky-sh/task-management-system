@@ -2,6 +2,10 @@
 
 A task management system with auth with jwt and RBAC built using MERN stack.
 
+## Ui wireframes
+
+- [https://excalidraw.com/#json=M_3HqmOmtdZZnku6DkgSb,6ol6NgjQ7_RGAOwOlwtXyw](https://excalidraw.com/#json=M_3HqmOmtdZZnku6DkgSb,6ol6NgjQ7_RGAOwOlwtXyw)
+
 ## Api Documentation
 
 - **Users/Auth Api**: [https://documenter.getpostman.com/view/37989181/2sAYkEpKBX](https://documenter.getpostman.com/view/37989181/2sAYkEpKBX)
