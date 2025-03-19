@@ -20,3 +20,22 @@ NODE_ENV = . . . //developemet or production
 MAILTRAP_TOKEN =  . . .
 CLIENT_URL =  . . .
 ```
+
+### Build the app
+
+```shell
+npm run build
+```
+
+### run development server for backend
+
+```shell
+npm run dev
+```
+
+### Go to frontend folder and run development server
+
+```shell
+cd ./frontend
+npm run dev
+```
