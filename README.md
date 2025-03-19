@@ -43,3 +43,15 @@ npm run dev
 cd ./frontend
 npm run dev
 ```
+
+## Mailtrap Integration (Free Plan Limitation)
+
+**Important:** The Mailtrap integration feature, specifically sending emails through this application, is currently limited to the email address associated with the API key used. This is due to the constraints of the free Mailtrap plan.
+
+**To use this feature:**
+
+* Ensure you are using the API key from the Mailtrap account you created.
+* The sender and recipient email addresses must match the email address associated with the API key.
+
+I apologize for any inconvenience this may cause. I am exploring options to expand this functionality in the future.
+
