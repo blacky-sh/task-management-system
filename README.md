@@ -2,6 +2,10 @@
 
 A task management system with auth with jwt and RBAC built using MERN stack.
 
+## App Demo
+
+![demo video](https://github.com/blacky-sh/task-management-system/blob/c2db0f109409a21660cea21edbbbb7babd3b576d/projectDemo.gif)
+
 ## Ui wireframes
 
 - [https://excalidraw.com/#json=M_3HqmOmtdZZnku6DkgSb,6ol6NgjQ7_RGAOwOlwtXyw](https://excalidraw.com/#json=M_3HqmOmtdZZnku6DkgSb,6ol6NgjQ7_RGAOwOlwtXyw)
