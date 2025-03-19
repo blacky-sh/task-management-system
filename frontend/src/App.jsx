@@ -9,6 +9,7 @@ import { Toaster } from "react-hot-toast";
 import { useAuthStore } from "./store/authStore";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
+import Header from "./components/Header";
 
 // protect routes that require authentication
 const ProtectedRoute = ({ children }) => {
@@ -37,7 +38,7 @@ const RedirectAuthenticatedUser = ({ children }) => {
 };
 
 const App = () => {
-  const { isCheckingAuth, checkAuth } = useAuthStore();
+  const { isCheckingAuth, checkAuth, isAuthenticated } = useAuthStore();
 
   useEffect(() => {
     checkAuth();
@@ -52,6 +53,7 @@ const App = () => {
 
   return (
     <div className='min-h-screen bg-gray-200 flex font-sans items-center justify-center relative overflow-hidden'>
+      <Header isAuthenticated={isAuthenticated} />
       <Routes>
         <Route
           path='/'
