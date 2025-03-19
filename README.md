@@ -4,6 +4,19 @@ A task management system with auth with jwt and RBAC built using MERN stack.
 
 ## Api Documentation
 
--**Users/Auth Api**: [https://documenter.getpostman.com/view/37989181/2sAYkEpKBX](https://documenter.getpostman.com/view/37989181/2sAYkEpKBX)
+- **Users/Auth Api**: [https://documenter.getpostman.com/view/37989181/2sAYkEpKBX](https://documenter.getpostman.com/view/37989181/2sAYkEpKBX)
 
--**Tasks Api**: [https://documenter.getpostman.com/view/37989181/2sAYkEpKBa](https://documenter.getpostman.com/view/37989181/2sAYkEpKBa)
+- **Tasks Api**: [https://documenter.getpostman.com/view/37989181/2sAYkEpKBa](https://documenter.getpostman.com/view/37989181/2sAYkEpKBa)
+
+## Installation/ Setup
+
+### Setup .env file in the root directory
+
+```js
+PORT = . . .
+MONGO_URI = . . .
+JWT_SECRET = . . .
+NODE_ENV = . . . //developemet or production
+MAILTRAP_TOKEN =  . . .
+CLIENT_URL =  . . .
+```
